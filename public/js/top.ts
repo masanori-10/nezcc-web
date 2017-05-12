@@ -8,7 +8,6 @@ var VisModelJS;
 var PolymerGestures;
 var pegEditor;
 var inputEditor;
-var konohaEditor;
 var navbarId = ["navbar-overview", "navbar-documents", "navbar-playground"];
 var contentId = ["overview", "documents", "playground"];
 var editorId = ["peg4d", "input", "output"];
@@ -19,18 +18,13 @@ var reader = new FileReader();
 $(function() {
     // 初期化
     pegEditor = ace.edit("pegEditor");
-    pegEditor.setTheme("ace/theme/xcode");
+    pegEditor.setTheme("ace/theme/monokai");
     pegEditor.getSession().setMode("ace/mode/c_cpp");
     (<any>pegEditor).setFontSize(12);
 
     inputEditor = ace.edit("inputEditor");
     inputEditor.setTheme("ace/theme/xcode");
     inputEditor.getSession().setMode("ace/mode/markdown");
-    (<any>inputEditor).setFontSize(12);
-
-    konohaEditor = ace.edit("konohaEditor");
-    konohaEditor.setTheme("ace/theme/xcode");
-    konohaEditor.getSession().setMode("ace/mode/java");
     (<any>inputEditor).setFontSize(12);
 
     var root = document.getElementById("visualOutput");
@@ -70,7 +64,7 @@ $(function() {
       } else {
         $(".container").css({top: "0", height: "100%"});
       }
-      });
+    });
 
     /*$(".input-area > .collapse-block > .ground-label > .text").click(function(){
       var id = $(this).attr("id");
@@ -102,8 +96,6 @@ $(function() {
           break;
       }
       });*/
-
-      $("#run").click(runCallback);
 
       $(".visualize-btn").click(visualizeCallback);
 

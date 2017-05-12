@@ -12,6 +12,7 @@ var path = require('path');
 
 var nez_command = config.nez.env + ' java -jar ' + config.nez.path + ' ' + config.nez.option + ' ';
 var konoha_command = config.konoha.env + ' java -jar ' + config.konoha.path + ' ' + config.konoha.option + ' ';
+var origami_command = 'origami nezcc -g ' + 'opegFile' + ' -Xblue.origami.nezcc.' +  'outputLangName' + 'ParserGenerator';
 
 function genResponse(res, j) {
     res.writeHead(200, {'Content-Type': 'application/json'});
