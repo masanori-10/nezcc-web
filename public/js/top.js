@@ -35,25 +35,15 @@ $(function () {
         resizeTextarea();
     });
     $("span[id='opeg'] > .dropdown > ul > li > a").click(function () { // grammar fail選択時起動
-        console.log(this);
         setOpeg($(this).attr("value"), $(this).text());
     });
     $("span[id='output'] > .dropdown > ul > li > a").click(function () { // target lung選択時起動
-        console.log(this);
         $("span[id='output'] > .dropdown > button").text($(this).text());
         $("span[id='output'] > .dropdown > button").append("<span class=caret>");
         document.querySelector('span#output > .dropdown > button').value = $(this).attr("value");
     });
     $(".btn-refresh").click(function () { // 更新ボタンより起動
-        var id = $(this).attr("id");
-        if (id == "opeg") {
-            opegEditor.setValue("");
-            $("span[id='opeg'] > .dropdown > button").text("None ");
-            $("span[id='opeg'] > .dropdown > button").append("<span class=caret>");
-            outputEditor.setValue("");
-            $("span[id='output'] > .dropdown > button").text("None ");
-            $("span[id='output'] > .dropdown > button").append("<span class=caret>");
-        }
+      refresh();
     });
     $("#generate").click(generateParser);
     setSource();
@@ -64,10 +54,19 @@ $(window).on('touchmove.noScroll', function (e) {
 });
 $(window).load(function () {
     resizeTextarea();
+    refresh();
 });
 var timer;
 function changeEditor(e) {
     clearTimeout(timer);
+}
+
+function refresh() {
+  setOpeg("math", "Math");
+  outputEditor.setValue("");
+  $("span[id='output'] > .dropdown > button").text("Java");
+  $("span[id='output'] > .dropdown > button").append("<span class=caret>");
+  document.querySelector('span#output > .dropdown > button').value = "java";
 }
 
 function generateParser(e){
