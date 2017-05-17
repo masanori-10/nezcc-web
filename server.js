@@ -10,7 +10,7 @@ var routes = require('./app/routes/index');
 var post_api = require('./app/routes/post');
 var app = express();
 app.set('views', path.join(__dirname, 'app/views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 if (app.get('env') === 'production') {
     var compression = require('compression');
     app.use(compression());
