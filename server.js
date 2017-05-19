@@ -16,7 +16,9 @@ if (app.get('env') === 'production') {
 }
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use(cookieParser(config.cookie.secret));
 app.use(session({
     secret: config.session.secret,
