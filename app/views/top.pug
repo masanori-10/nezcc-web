@@ -23,65 +23,48 @@ block content
     .container#nez
       .row.row-content#playground(style="left:0px;")
         .header(style="padding-left: 10px; padding-right: 10px;")
-          h2(style="display:inline-block; color: rebeccapurple") Nezcc ParserGenerator
-        .input-area(style="width: 50%")
-          .collapse-block#opeg(style="height: 95%")
-            .ground-label#opeg
-              span.text#opeg OPEG File :&nbsp
-                .dropdown(style="display: inline")
-                  button.btn.btn-default.dropdown-toggle.txt#dropdownInput(type="button", data-toggle="dropdown") None&nbsp
-                    span.caret
-                  ul.dropdown-menu(role="menu", aria-labelledby="dropdownInput")
-                    li.fileUploader(role="presentation", style="display: inline")
-                      input.uploader#opeg(type="file", style="height: 95%; width: 158px;")
-                      .importp4d#opeg(style="position: relative; padding: 4px 12px;")
-                        span.glyphicon.glyphicon-folder-open
-                        span.text &nbsp Import
-                    li(role="presentation")
-                      a(role="menuitem", tabindex="-1", value="csv") CSV
-                    li(role="presentation")
-                      a(role="menuitem", tabindex="-1", value="email") Email
-                    li(role="presentation")
-                      a(role="menuitem", tabindex="-1", value="epsilon") Epsilon
-                    li(role="presentation")
-                      a(role="menuitem", tabindex="-1", value="iroha") Iroha
-                    li(role="presentation")
-                      a(role="menuitem", tabindex="-1", value="java") Java
-                    li(role="presentation")
-                      a(role="menuitem", tabindex="-1", value="js") JavaScript
-                    li(role="presentation")
-                      a(role="menuitem", tabindex="-1", value="json") JSON
-                    li(role="presentation")
-                      a(role="menuitem", tabindex="-1", value="kal") KaleidoScope
-                    li(role="presentation")
-                      a(role="menuitem", tabindex="-1", value="math") Math
-                    li(role="presentation")
-                      a(role="menuitem", tabindex="-1", value="py") Python
-                    li(role="presentation")
-                      a(role="menuitem", tabindex="-1", value="rb") Ruby
-                    li(role="presentation")
-                      a(role="menuitem", tabindex="-1", value="testcase") Test
-                    li(role="presentation")
-                      a(role="menuitem", tabindex="-1", value="utf8") UTF-8
-                    li(role="presentation")
-                      a(role="menuitem", tabindex="-1", value="xml") XML
-              i.fa.fa-refresh.btn-refresh#opeg
-            pre#opegEditor(name="example", style="height: 95%")
-        .output-area(style="width: 50%")
-          .collapse-block#output(style="height: 95%")
-            .ground-label#output
+          h2(style="display:inline-block; color: rebeccapurple")
+            a(href="/") Nezcc Parser Generator Online Demo
+        .row
+          .col-leg-12
+            #opegEditor(name="example", style="display: block; font-size: 15px; height: 500px;")
+            br
+            .text Grammar Name :&nbsp
+              input#fileName(name="fileName", type="text", value="math")
+              span   &nbsp
               span.text#output Target Language :&nbsp
                 .dropdown(style="display: inline")
                   button.btn.btn-default.dropdown-toggle.txt#dropdownOutput(type="button", data-toggle="dropdown") None&nbsp
                     span.caret
                   ul.dropdown-menu(role="menu", aria-labelledby="dropdownOutput")
                     li(role="presentation")
-                      a(role="menuitem", tabindex="-1", value="java") Java
+                      a(role="menuitem", tabindex="-1", value="c") c
                     li(role="presentation")
-                      a(role="menuitem", tabindex="-1", value="c") C
+                      a(role="menuitem", tabindex="-1", value="c") cnez3
                     li(role="presentation")
-                      a(role="menuitem", tabindex="-1", value="py") Python
+                      a(role="menuitem", tabindex="-1", value="hs") haskell
                     li(role="presentation")
-                      a(role="menuitem", tabindex="-1", value="hs") Haskell
-              span.btn.btn-primary#generate(type="button", style="margin-left:20px; background-color: rgb(0, 0, 200); border-color: rgb(0, 0, 100)") Generate
-            pre#outputEditor(name="example", style="height: 95%")
+                      a(role="menuitem", tabindex="-1", value="java") java2
+                    li(role="presentation")
+                      a(role="menuitem", tabindex="-1", value="java") java8
+                    li(role="presentation")
+                      a(role="menuitem", tabindex="-1", value="pl") perl5
+                    li(role="presentation")
+                      a(role="menuitem", tabindex="-1", value="py") python2
+                    li(role="presentation")
+                      a(role="menuitem", tabindex="-1", value="py") python3
+                    li(role="presentation")
+                      a(role="menuitem", tabindex="-1", value="scala") scala
+            br
+            input.btn.btn-primary.btn-lg.btn-block#generate(type="submit", value="Generate Parser!")
+        hr
+        div#outputtxt
+        hr
+        button#download(onclick="run();")
+        hr
+        .footer
+          p
+            a(href="https://github.com/masanori-10" target="_blank") Masanori Sato
+            | 2017
+    a(href="https://github.com/kkuramitsu/origami")
+      img(style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png")

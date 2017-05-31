@@ -26,6 +26,7 @@
     "pug": "^2.0.0-alpha6",
     "pug-cli": "^1.0.0-alpha1",
     "sequelize": "^3.30.4",
+    "static-favicon": "^2.0.0-alpha",
     "tmp": "0.0.31"
   },
   "devDependencies": {

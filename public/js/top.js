@@ -7,24 +7,20 @@ var createNodeViewFromP4DJson;
 var VisModelJS;
 var PolymerGestures;
 var opegEditor;
-var outputEditor;
 var navbarId = ["navbar-overview", "navbar-documents", "navbar-playground"];
 var contentId = ["overview", "documents", "playground"];
 var editorId = ["opeg"];
 var inputFocus = "both";
 var setEditorId = [];
 var reader = new FileReader();
+var destData;
+var destFileName;
 $(function () {
     // 初期化
     opegEditor = ace.edit("opegEditor");
     opegEditor.setTheme("ace/theme/xcode");
     opegEditor.getSession().setMode("ace/mode/c_cpp");
     opegEditor.setFontSize(12);
-
-    outputEditor = ace.edit("outputEditor");
-    outputEditor.setTheme("ace/theme/xcode");
-    outputEditor.getSession().setMode("ace/mode/c_cpp");
-    outputEditor.setFontSize(12);
 
     var TopNode = createNodeViewFromP4DJson({ "": "" });
 
@@ -34,15 +30,12 @@ $(function () {
         $('.sidebar-right').css("left", width - sidebarW + "px");
         resizeTextarea();
     });
-    $("span[id='opeg'] > .dropdown > ul > li > a").click(function () { // grammar fail選択時起動
-        setOpeg($(this).attr("value"), $(this).text());
+    $("#output > .dropdown > ul > li > a").click(function () {
+        $("#output > .dropdown > button").text($(this).text());
+        $("#output > .dropdown > button").append("<span class=caret>");
+        document.querySelector('#output > .dropdown > button').value = $(this).attr("value");
     });
-    $("span[id='output'] > .dropdown > ul > li > a").click(function () { // target lung選択時起動
-        $("span[id='output'] > .dropdown > button").text($(this).text());
-        $("span[id='output'] > .dropdown > button").append("<span class=caret>");
-        document.querySelector('span#output > .dropdown > button').value = $(this).attr("value");
-    });
-    $(".btn-refresh").click(function () { // 更新ボタンより起動
+    $(".btn-refresh").click(function () {
       refresh();
     });
     $("#generate").click(generateParser);
@@ -63,33 +56,65 @@ function changeEditor(e) {
 
 function refresh() {
   setOpeg("math", "Math");
-  outputEditor.setValue("");
-  $("span[id='output'] > .dropdown > button").text("Java");
-  $("span[id='output'] > .dropdown > button").append("<span class=caret>");
-  document.querySelector('span#output > .dropdown > button').value = "java";
+  // outputEditor.setValue("");
+  $("#output > .dropdown > button").text("java8");
+  $("#output > .dropdown > button").append("<span class=caret>");
+  document.querySelector('#output > .dropdown > button').value = "java";
 }
 
 function generateParser(e){
   var opeg = opegEditor.getValue();
+  var gname = document.getElementById('fileName').value
   var tlang = document.getElementById('dropdownOutput').innerText;
   var ext = document.getElementById('dropdownOutput').value;
-  runGenerate(opeg, tlang, ext, function(res){
-      outputEditor.setValue(res.source);
+  runGenerate(opeg, gname, tlang, ext, function(res){
+      document.getElementById('outputtxt').innerText = res.output;
+      destData = res.dest;
+      destFileName = gname + '.' + ext;
+      document.getElementById('download').innerText = destFileName;
     }, () => {
       console.log("sorry");
   });
 }
 
-function runGenerate(opeg, tlang, ext, callback, onerror){
+function runGenerate(opeg, gname, tlang, ext, callback, onerror){
   $.ajax({
     type: "POST",
     url: Config.basePath + "/generate",
-    data: JSON.stringify({opeg: opeg, tlang: tlang, ext: ext}),
+    data: JSON.stringify({opeg: opeg, gname: gname, tlang: tlang, ext: ext}),
     dataType: 'json',
     contentType: "application/json; charset=utf-8",
     success: callback,
     error: onerror
   })
+}
+
+function AsciiToUint8Array(S) {
+  var len = S.length;
+  var P = new Uint8Array(len);
+  for (var i = 0; i < len; i++) {
+    P[i] = S[i].charCodeAt(0);
+  }
+  return P;
+}
+
+function SaveToFile(FileName,Stream) {
+  if (window.navigator.msSaveBlob) {
+    window.navigator.msSaveBlob(new Blob([Stream.subarray(0, Stream.length)], { type: "text/plain" }), FileName);
+  } else {
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([Stream.subarray(0, Stream.length)], { type: "text/plain" }));
+    //a.target   = '_blank';
+    a.download = FileName;
+    document.body.appendChild(a) //  FireFox specification
+    a.click();
+    document.body.removeChild(a) //  FireFox specification
+  }
+}
+
+function run(){
+  var Stream = new Uint8Array(AsciiToUint8Array(destData));
+  SaveToFile(destFileName,Stream);
 }
 
 function resizeTextarea(toSize) {
@@ -128,8 +153,8 @@ function setOpeg(fileName, displayName) {
                 opegEditor.setValue(res);
                 opegEditor.clearSelection();
                 opegEditor.gotoLine(0);
-                $("span[id='opeg'] > .dropdown > button").text(displayName);
-                $("span[id='opeg'] > .dropdown > button").append("<span class=caret>");
+                // $("span[id='opeg'] > .dropdown > button").text(displayName);
+                // $("span[id='opeg'] > .dropdown > button").append("<span class=caret>");
             }
         }
     });

@@ -14,36 +14,46 @@ function genResponse(res, j) {
     res.write(JSON.stringify(j));
     res.end('\n');
 }
-function createFileAndExec(opeg_tempfile, opeg, command, callback) {
+function createFileAndExec(opeg_tempdir, opeg_tempfile, opeg, command, callback) {
+  exec('cd ' + opeg_tempdir, function (nout) {
     fs.writeFileSync(opeg_tempfile, opeg);
     exec(command, function (out) {
-        callback(out);
+      callback(out);
     });
+  });
 }
 
 router.post('/generate', function(req, res) {
-  tmp.file({prefix: 'opeg'}, function(opeg_err,opeg_tempfile,fd) {
+  tmp.dir(function(opeg_err,opeg_tempdir) {
     if(opeg_err) {
       console.log(opeg_err);
       return;
     }
-    var dest_file = opeg_tempfile.replace(/.*\/|\..*/g,'') + '.' + req.body.ext;
-    var exec_command = 'origami nezcc -g ' + opeg_tempfile + ' -Xblue.origami.nezcc.' + req.body.tlang + 'ParserGenerator';
-    createFileAndExec(opeg_tempfile, req.body.opeg, exec_command, function(stdout) {
-      var data = fs.readFileSync(dest_file);
-      fs.unlinkSync(dest_file);
-      console.log(data.toString());
-      if(data.length > 0) {
-        var sendData = data.toString();
-        if(sendData){
-          var j = { source: sendData, runnable: true };
-        } else {
-          var j = { source: data.toString(), runnable: false };
+    var opeg_tempfile = req.body.gname + ".opeg";
+    var dest_file = req.body.gname + '.' + req.body.ext;
+    var output_file = "output.txt";
+    var exec_command = 'origami nezcc -g ' + opeg_tempfile + ' ' + req.body.tlang + '.nezcc > ' + output_file;
+    console.log(exec_command);
+    createFileAndExec(opeg_tempdir, opeg_tempfile, req.body.opeg, exec_command, function(stdout) {
+      try {
+        var output = fs.readFileSync(output_file,'utf8');
+        var dest = fs.readFileSync(dest_file,'utf8');
+        fs.unlinkSync(opeg_tempfile);
+        fs.unlinkSync(output_file);
+        fs.unlinkSync(dest_file);
+        if(output.length > 0 && dest.length > 0) {
+          var outputData = output.toString();
+          var destData = dest.toString();
+          if(outputData&&destData){
+            var j = { output: outputData, dest: destData, runnable: true };
+          } else {
+            var j = { output: outputData.toString(), dest: destData.toString(), runnable: false };
+          }
+          genResponse(res, j);
         }
-        genResponse(res, j);
-      } else {
+      } catch(err) {
         var msg = "";
-        var error_j = { source: msg, runnable: false };
+        var error_j = { output: msg, dest: msg, runnable: false };
         genResponse(res, error_j);
       }
     });
