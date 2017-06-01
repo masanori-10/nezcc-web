@@ -68,12 +68,12 @@ function generateParser(e){
   var tlang = document.getElementById('dropdownOutput').innerText;
   var ext = document.getElementById('dropdownOutput').value;
   runGenerate(opeg, gname, tlang, ext, function(res){
-      document.getElementById('outputtxt').innerText = res.output;
-      destData = res.dest;
-      destFileName = gname + '.' + ext;
-      document.getElementById('download').innerText = destFileName;
-    }, () => {
-      console.log("sorry");
+    document.getElementById('outputtxt').innerText = res.outputData;
+    destData = res.destData;
+    destFileName = gname + '.' + ext;
+    document.getElementById('download').innerText = destFileName;
+  }, () => {
+    console.log("sorry");
   });
 }
 

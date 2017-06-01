@@ -10,9 +10,9 @@ var tmp = require('tmp');
 var path = require('path');
 
 function genResponse(res, j) {
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.write(JSON.stringify(j));
-    res.end('\n');
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.write(JSON.stringify(j));
+  res.end('\n');
 }
 function createFileAndExec(opeg_tempdir, opeg_tempfile, opeg, command, callback) {
   exec('cd ' + opeg_tempdir, function (nout) {
@@ -42,18 +42,14 @@ router.post('/generate', function(req, res) {
         fs.unlinkSync(output_file);
         fs.unlinkSync(dest_file);
         if(output.length > 0 && dest.length > 0) {
-          var outputData = output.toString();
+          var outputData = output.toString().replace('\u001b[00;36m','').replace('\u001b[00m','');
           var destData = dest.toString();
-          if(outputData&&destData){
-            var j = { output: outputData, dest: destData, runnable: true };
-          } else {
-            var j = { output: outputData.toString(), dest: destData.toString(), runnable: false };
-          }
+          var j = { outputData: outputData, destData: destData };
           genResponse(res, j);
         }
       } catch(err) {
         var msg = "";
-        var error_j = { output: msg, dest: msg, runnable: false };
+        var error_j = { output: msg, dest: msg };
         genResponse(res, error_j);
       }
     });
