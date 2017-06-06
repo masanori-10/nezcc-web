@@ -42,11 +42,15 @@ block content
                     li(role="presentation")
                       a(role="menuitem", tabindex="-1", value="c") cnez3
                     li(role="presentation")
+                      a(role="menuitem", tabindex="-1", value="fsx") fsharp
+                    li(role="presentation")
                       a(role="menuitem", tabindex="-1", value="hs") haskell
                     li(role="presentation")
                       a(role="menuitem", tabindex="-1", value="java") java2
                     li(role="presentation")
                       a(role="menuitem", tabindex="-1", value="java") java8
+                    li(role="presentation")
+                      a(role="menuitem", tabindex="-1", value="js") javascript
                     li(role="presentation")
                       a(role="menuitem", tabindex="-1", value="pl") perl5
                     li(role="presentation")
@@ -54,12 +58,21 @@ block content
                     li(role="presentation")
                       a(role="menuitem", tabindex="-1", value="py") python3
                     li(role="presentation")
+                      a(role="menuitem", tabindex="-1", value="rkt") recket
+                    li(role="presentation")
+                      a(role="menuitem", tabindex="-1", value="rs") rust1
+                    li(role="presentation")
                       a(role="menuitem", tabindex="-1", value="scala") scala
+                    li(role="presentation")
+                      a(role="menuitem", tabindex="-1", value="swift") swift
             br
             input.btn.btn-primary.btn-lg.btn-block#generate(type="submit", value="Generate Parser!")
         hr
-        div#outputtxt
+        .row-output
+          .col-leg-12
+            #outputEditor(name="example", style="")
         hr
+        div#downloadtxt
         button#download(onclick="run();")
         hr
         .footer

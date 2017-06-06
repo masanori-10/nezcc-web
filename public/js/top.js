@@ -7,6 +7,7 @@ var createNodeViewFromP4DJson;
 var VisModelJS;
 var PolymerGestures;
 var opegEditor;
+var outputEditor;
 var navbarId = ["navbar-overview", "navbar-documents", "navbar-playground"];
 var contentId = ["overview", "documents", "playground"];
 var editorId = ["opeg"];
@@ -68,10 +69,18 @@ function generateParser(e){
   var tlang = document.getElementById('dropdownOutput').innerText;
   var ext = document.getElementById('dropdownOutput').value;
   runGenerate(opeg, gname, tlang, ext, function(res){
-    document.getElementById('outputtxt').innerText = res.outputData;
+    document.getElementById("outputEditor").style = "display: block; font-size: 15px; height: 500px;";
+    outputEditor = ace.edit("outputEditor");
+    outputEditor.setTheme("ace/theme/terminal");
+    outputEditor.getSession().setMode("ace/mode/Text");
+    outputEditor.setFontSize(12);
+    outputEditor.renderer.setShowGutter(false);
+    outputEditor.setValue(res.outputData);
+    //document.getElementById('outputtxt').innerText = res.outputData;
     destData = res.destData;
     destFileName = gname + '.' + ext;
     document.getElementById('download').innerText = destFileName;
+    document.getElementById('downloadtxt').innerText = "Download from here : "
   }, () => {
     console.log("sorry");
   });
