@@ -57,7 +57,6 @@ function changeEditor(e) {
 
 function refresh() {
   setOpeg("math", "Math");
-  // outputEditor.setValue("");
   $("#output > .dropdown > button").text("java8");
   $("#output > .dropdown > button").append("<span class=caret>");
   document.querySelector('#output > .dropdown > button').value = "java";
@@ -76,11 +75,9 @@ function generateParser(e){
     outputEditor.setFontSize(12);
     outputEditor.renderer.setShowGutter(false);
     outputEditor.setValue(res.outputData);
-    //document.getElementById('outputtxt').innerText = res.outputData;
     destData = res.destData;
     destFileName = gname + '.' + ext;
-    document.getElementById('download').innerText = destFileName;
-    document.getElementById('downloadtxt').innerText = "Download from here : "
+    document.getElementById('downloadCol').innerHTML = "<br><input class = 'btn btn-primary btn-lg btn-block' id = 'download' onclick = 'run();' value = 'Download from here : " + destFileName + "'> </input>"
   }, () => {
     console.log("sorry");
   });

@@ -65,20 +65,22 @@ block content
                       a(role="menuitem", tabindex="-1", value="scala") scala
                     li(role="presentation")
                       a(role="menuitem", tabindex="-1", value="swift") swift
+                    li(role="presentation")
+                      a(role="menuitem", tabindex="-1", value="swift") swift3
+                    li(role="presentation")
+                      a(role="menuitem", tabindex="-1", value="ts") typescript
             br
             input.btn.btn-primary.btn-lg.btn-block#generate(type="submit", value="Generate Parser!")
         hr
         .row-output
           .col-leg-12
             #outputEditor(name="example", style="")
-        hr
-        div#downloadtxt
-        button#download(onclick="run();")
+        .row-download
+          .col-leg-12#downloadCol
         hr
         .footer
           p
-            a(href="https://github.com/masanori-10" target="_blank") Masanori Sato &nbsp
-            | 2017
+            div(align='center') Kuramitsu Lab 2017
     style.
       #forkongithub a{background:#228B22	;color:#fff;text-decoration:none;font-family:arial,sans-serif;text-align:center;font-weight:bold;padding:5px 40px;font-size:1rem;line-height:2rem;position:relative;transition:0.5s;}#forkongithub a:hover{background:#0000FF	;color:#fff;}#forkongithub a::before,#forkongithub a::after{content:"";width:100%;display:block;position:absolute;top:1px;left:0;height:1px;background:#fff;}#forkongithub a::after{bottom:1px;top:auto;}@media screen and (min-width:800px){#forkongithub{position:fixed;display:block;top:0;right:0;width:200px;overflow:hidden;height:200px;z-index:9999;}#forkongithub a{width:200px;position:absolute;top:35px;right:-60px;transform:rotate(45deg);-webkit-transform:rotate(45deg);-ms-transform:rotate(45deg);-moz-transform:rotate(45deg);-o-transform:rotate(45deg);box-shadow:4px 4px 10px rgba(0,0,0,0.8);}}
     span#forkongithub
